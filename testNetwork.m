@@ -1,13 +1,28 @@
-[names, features] = load_facial_features('Roster', net);
+% Uncomment to load the network
+% net = load('toolbox/models/vgg-face.mat');
+% net.layers{37} = [];
+% net.layers{36} = [];
+% net.layers{35} = [];
+% net.layers = net.layers(~cellfun('isempty',net.layers))  
+% 
+% [names, features] = loadFacialFeatures('roster', net);
 
-kyle_face = imread('kyle_face.jpg');
-jack_face = imread('jack_face.jpg');
-joyce_face = imread('joyce_face.jpg');
+addpath(genpath(fullfile('toolbox', 'frontalize.0.1.2')));
+addpath(genpath(fullfile('toolbox', 'frontalize.0.1.2', 'calib')));
+addpath(genpath(fullfile('toolbox', 'frontalize.0.1.2', 'ZhuRamanan')));
+load('toolbox/frontalize.0.1.2/ZhuRamanan/face_p146_small.mat','model');
+load model3DZhuRamanan Model3D % reference 3D points corresponding to Zhu & Ramanan detections
+load eyemask eyemask % mask to exclude eyes from symmetry
+load DataAlign2LFWa REFSZ REFTFORM % similarity transf. from rendered view to LFW-a coordinates
 
-vec = extract_feature_vector(kyle_face, net);
+test_face = imread('testimage/kyle2.jpg');
+proc_face = alignCrop('testimage/kyle2.jpg', model, Model3D, eyemask, REFTFORM, REFSZ);
+imshow(proc_face);
 
-names = guess_name(names, features, vec);
+test_features = extractFeatures(test_face, net);
 
-for i = 1:length(names)
-    fprintf('%s, Score: %f\n', char(names{i}{1}), double(names{i}{2}));
+predictions = predictName(names, features, test_features);
+
+for i = 1:20
+    fprintf('%s, Score: %f\n', char(predictions{i}{1}), double(predictions{i}{2}));
 end

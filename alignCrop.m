@@ -1,4 +1,4 @@
-function outputImage = AlignCrop(imageName, model, Model3D, eyemask, REFTFORM, REFSZ)
+function outputImage = alignCrop(imageName, model, Model3D, eyemask, REFTFORM, REFSZ)
 % Load query image
 I_Q = imread(imageName);
 
@@ -26,7 +26,6 @@ frontal_sym = imtransform(frontal_sym,REFTFORM,'XData',[1 REFSZ(2)], 'YData',[1 
 
 fidu_XY = FacialFeatureDetection(frontal_sym, model);
 if isempty(fidu_XY)
-    %error('Failed to detect facial features / find face in image.');
     fprintf('Failed to detect facial features on the image:');
     fprintf(imageName);
     fprintf(' Skipping image...\n');
@@ -35,11 +34,4 @@ if isempty(fidu_XY)
 end
 
 outputImage = imcrop(frontal_sym, [min(fidu_XY(:,1)) min(fidu_XY(:,2)) max(fidu_XY(:,1))-min(fidu_XY(:,1)) max(fidu_XY(:,2))-min(fidu_XY(:,2))]);
-
-% Display results
-%figure; imshow(I_Q); title('Query photo');
-%figure; imshow(I_Q); hold on; plot(fidu_XY(:,1),fidu_XY(:,2),'.'); hold off; title('Query photo with detections overlaid');
-%figure; imshow(frontal_raw); title('Frontalilzed no symmetry');
-%figure; imshow(frontal_sym); title('Frontalilzed with soft symmetry');
-%figure; imshow(imcrop(frontal_sym, [min(fidu_XY(:,1)) min(fidu_XY(:,2)) max(fidu_XY(:,1))-min(fidu_XY(:,1)) max(fidu_XY(:,2))-min(fidu_XY(:,2))]));
 end
