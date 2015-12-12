@@ -1,7 +1,7 @@
 if ~exist('result', 'dir'), mkdir('result'); end
 if ~exist('tmp', 'dir'), mkdir('tmp'); end
 
-nTrain = 113620; %need to replace nTrain with number of train samples
+nTrain = 110756; %need to replace nTrain with number of train samples
 trainData = ones(48, 48, 3, nTrain);
 trainLabels = ones(1, nTrain);
 
