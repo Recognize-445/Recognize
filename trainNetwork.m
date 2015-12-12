@@ -51,7 +51,11 @@ opts.learningRate = 1e-2;
 opts.batchSize = 4;
 opts.numEpochs = 30;
 
-[trainIdx, valIdx] = crossvalind('HoldOut', nTrain, 0.85);
+[selected, ignored] = crossvalind('HoldOut', nTrain, 0.5);
+normalizedTrainData(:,:,:,ignored)=[];
+trainLabels(ignored) =[];
+
+[trainIdx, valIdx] = crossvalind('HoldOut', nTrain/2, 0.85);
 trained_facial_identification_nn = cnnTrain(normalizedTrainData(:,:,:,trainIdx),...
     trainLabels(:, trainIdx), ...
     normalizedTrainData(:,:,:, valIdx), trainLabels(:, valIdx),...
