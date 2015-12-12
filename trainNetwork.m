@@ -53,7 +53,7 @@ opts.numEpochs = 30;
 
 [selected, ignored] = crossvalind('HoldOut', nTrain, 0.5);
 normalizedTrainData(:,:,:,ignored)=[];
-trainLabels(ignored) =[];
+trainLabels(:,ignored) =[];
 
 [trainIdx, valIdx] = crossvalind('HoldOut', nTrain/2, 0.85);
 trained_facial_identification_nn = cnnTrain(normalizedTrainData(:,:,:,trainIdx),...
