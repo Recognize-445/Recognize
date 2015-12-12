@@ -1,7 +1,7 @@
 if ~exist('result', 'dir'), mkdir('result'); end
 if ~exist('tmp', 'dir'), mkdir('tmp'); end
 
-nTrain = 10; %need to replace nTrain with number of train samples
+nTrain = ; %need to replace nTrain with number of train samples
 trainData = ones(48, 48, 3, nTrain);
 trainLabels = ones(1, nTrain);
 
@@ -52,9 +52,9 @@ opts.batchSize = 4;
 opts.numEpochs = 30;
 
 [trainIdx, valIdx] = crossvalind('HoldOut', nTrain, 0.85);
-trained_facial_identification_nn = cnnTrain(normalizedStandardizedTrainData(:,:,:,trainIdx),...
+trained_facial_identification_nn = cnnTrain(normalizedTrainData(:,:,:,trainIdx),...
     trainLabels(:, trainIdx), ...
-    normalizedStandardizedTrainData(:,:,:, valIdx), trainLabels(:, valIdx),...
+    normalizedTrainData(:,:,:, valIdx), trainLabels(:, valIdx),...
     face_identification_nn, opts) ;
 copyfile(fullfile(opts.expDir, 'net-train.pdf'), ...
     fullfile('result', 'trained_facial_identification_nn.pdf'));
