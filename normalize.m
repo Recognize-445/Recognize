@@ -1,4 +1,4 @@
-function [ nData ] = normalize( data )
+function [ sub ] = normalize( data )
 
     
     mData = mean(mean(mean(data, 1), 2), 4);
