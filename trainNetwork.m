@@ -24,7 +24,7 @@ end
 
 save(fullfile('tmp', 'train.mat'), 'trainData', 'trainLabels');
 
-normalizedTrainData = normalize(double(trainData));
+normalizedTrainData = int8(normalize(double(trainData)));
 save(fullfile('tmp', 'normalizedTrain.mat'), 'normalizedTrainData', 'trainLabels');
 
 %normalizedStandardizedTrainData = standardize(normalizedTrainData);
@@ -36,8 +36,8 @@ clear trainData;
 initW = 1e-2;
 initB = 1e-1;
 
-addpath(genpath(fullfile('toolbox0', 'matconvnet-1.0-beta16')));
-addpath(genpath(fullfile('toolbox0', 'cnn')));
+addpath(genpath(fullfile('toolbox', 'matconvnet-1.0-beta16')));
+addpath(genpath(fullfile('toolbox', 'cnn')));
 
 run neuralNetworkSmall.m;
 
@@ -48,14 +48,13 @@ opts.expDir = fullfile('tmp', 'trained_facial_identification_nn');
 if exist(opts.expDir, 'dir') ~= 7, mkdir(opts.expDir); end
 
 opts.learningRate = 1e-2;
-opts.batchSize = 4;
+opts.batchSize = 500;
 opts.numEpochs = 30;
 
-[selected, ignored] = crossvalind('HoldOut', nTrain, 0.5);
-normalizedTrainData(:,:,:,ignored)=[];
-trainLabels(:,ignored) =[];
-
-[trainIdx, valIdx] = crossvalind('HoldOut', nTrain/2, 0.85);
+%[selected, ignored] = crossvalind('HoldOut', nTrain, 0.3);
+%normalizedTrainData(:, :, :, ignored) = [];
+%trainLabels(ignored) = [];
+[trainIdx, valIdx] = crossvalind('HoldOut', nTrain, 0.15);
 trained_facial_identification_nn = cnnTrain(normalizedTrainData(:,:,:,trainIdx),...
     trainLabels(:, trainIdx), ...
     normalizedTrainData(:,:,:, valIdx), trainLabels(:, valIdx),...
