@@ -27,11 +27,11 @@ save(fullfile('tmp', 'train.mat'), 'trainData', 'trainLabels');
 normalizedTrainData = normalize(double(trainData));
 save(fullfile('tmp', 'normalizedTrain.mat'), 'normalizedTrainData', 'trainLabels');
 
-normalizedStandardizedTrainData = standardize(normalizedTrainData);
-save(fullfile('result', 'normalizedStandardizedTrainData.mat'), ...
-    'normalizedStandardizedTrainData', 'trainLabels');
+%normalizedStandardizedTrainData = standardize(normalizedTrainData);
+%save(fullfile('result', 'normalizedStandardizedTrainData.mat'), ...
+%    'normalizedStandardizedTrainData', 'trainLabels');
 
-clear trainData normalizedTrainData;
+clear trainData;
 
 initW = 1e-2;
 initB = 1e-1;
