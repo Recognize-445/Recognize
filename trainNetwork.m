@@ -39,7 +39,7 @@ initB = 1e-1;
 addpath(genpath(fullfile('toolbox0', 'matconvnet-1.0-beta16')));
 addpath(genpath(fullfile('toolbox0', 'cnn')));
 
-run neural_network_sm.m;
+run neuralNetworkSmall.m;
 
 %opts need to be changed
 opts.continue = true;
