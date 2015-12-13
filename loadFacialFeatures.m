@@ -46,7 +46,6 @@ for i = 1:length(directoryNames)
         end
 end
 
-
 return
 end
 

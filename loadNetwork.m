@@ -27,5 +27,7 @@ elseif exist('roster_names.mat', 'file') == 2 && ...
 else
     fprintf('Generating {names, features}...');
     [names, features] = loadFacialFeatures('roster', net);
+    save('roster_features.mat', 'features');
+    save('roster_names.mat', 'names');
 end
 
